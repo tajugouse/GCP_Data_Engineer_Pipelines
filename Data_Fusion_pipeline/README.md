@@ -37,6 +37,16 @@ The project aims to perform the following tasks:
 Once Job is committed data get integrated in Bigquery table.
 
 
-Tada!!
+
+
+9. create dag.py file define your DAG name, email, script file location and dag storage path.
+10. create respective folder in gcloud to store these and upload your dag.py and extract.py file
+11. 
+
+![alt text](image-1.png)
+![alt text](image-2.png)
+
+
+## Tada!!
 
 ![alt text](image.png)
