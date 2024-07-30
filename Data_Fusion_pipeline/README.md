@@ -25,7 +25,7 @@ The project aims to perform the following tasks:
 - Python 3.8 or higher installed on your machine
 
 ### Steps
-1. Clone the repository using the following command: `https://github.com/tajugouse/GCP_Data_Engineer_Pipelines/tree/main/Data_Fusion_pipeline'
+1. Clone the repository using the following command: `https://github.com/tajugouse/GCP_Data_Engineer_Pipelines/tree/main/Data_Fusion_pipeline`
 2. Install the required packages using pip: `pip install -r requirements.txt`
 3. Create a new Google Cloud project and enable the necessary APIs (Data Fusion, Composer, Bigquery)
 4. Create a Cloud Storage bucket for storing data
