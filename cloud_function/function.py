@@ -26,7 +26,7 @@ def hello_gcs(cloud_event):
     print(f"Updated: {updated}")
     load_bq(filename)
 
-#load data to gcs bukcet
+#load data to bigquery 
 dataset = 'sales'
 table = 'orders'
 def load_bq(filename):
