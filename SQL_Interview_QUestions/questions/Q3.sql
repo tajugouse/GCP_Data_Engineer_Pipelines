@@ -17,5 +17,13 @@ insert into dept values(10,'Data_Analyst'),(12,'Data_Engineering'),(16,'HR'),(18
 
 select emp_id, emp_name,id as dept_id, dept_name, salary from (
 select e.emp_id, e.emp_name, d.id,d.dept_name, e.salary, dense_rank() over(
-partition by d.dept_name order by e.salary asc) as rank from empl e join dept d
+partition by d.dept_name order by e.salary asc) as rank from emp e join dept d
  on e.dept_id=d.id ) a where rnk=1 order by salary desc;
+
+
+-- Find cummulative salary department wise
+
+
+select e.emp_id, e.emp_name, d.id,d.dept_name, e.salary, sum(e.salary) over(
+partition by d.dept_name order by e.salary asc) as cumilative_salary from emp e join dept d
+on e.dept_id=d.id ;
