@@ -21,9 +21,27 @@ partition by d.dept_name order by e.salary asc) as rank from emp e join dept d
  on e.dept_id=d.id ) a where rnk=1 order by salary desc;
 
 
--- Find cummulative salary department wise
+-- Scenario 2: Find cummulative salary department wise
 
 
 select e.emp_id, e.emp_name, d.id,d.dept_name, e.salary, sum(e.salary) over(
 partition by d.dept_name order by e.salary asc) as cumilative_salary from emp e join dept d
 on e.dept_id=d.id ;
+
+
+--Scenario 3: Find the highest todatl salary fetch the department
+
+select d.dept_name, sum(e.salary) as total_salary from emp e 
+join dept d on e.dept_id = d.id 
+group by d.dept_name order by sum(e.salary) desc
+limit 1;
+
+-- or 
+with ranked_depts as (select d.dept_name, sum(e.salary) as total_salary, rank() over (order by sum(e.salary) desc) as rank from emp e 
+join dept d on e.dept_id = d.id 
+group by d.dept_name
+)
+select dept_name, total_salary from ranked_depts
+where rank = 1;
+
+
