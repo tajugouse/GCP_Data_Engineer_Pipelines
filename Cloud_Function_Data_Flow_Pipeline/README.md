@@ -7,7 +7,9 @@ by a Cloud Storage bucket notification when a new file is uploaded.
 3. BigQuery: This is where our processed data will be stored.
 4. Cloud Storage: This is where our raw data will be stored.
 
-![alt text](Cloud_Funtion_Data_Flow.drawio.png)
+
+![image](https://github.com/user-attachments/assets/d5af91e4-24f0-4280-bcce-45bea4426810)
+
 
 ## Objective:
 
