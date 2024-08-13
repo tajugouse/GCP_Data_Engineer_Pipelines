@@ -30,3 +30,5 @@ with cte as (
 select cte.student_id, cte.friend_id, cte.student_salary, cte.friend_salary, s.*
 from cte
 join students s on cte.student_id = s.id where friend_salary > student_salary;
+
+
