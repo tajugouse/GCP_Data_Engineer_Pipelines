@@ -38,15 +38,55 @@ INSERT INTO Sales_Info values (1, '2023-01-01', 1000, 'Mahendra', 'P1', 2, 20, '
 
 select * from sales_info;
 
+-- Calculates the incremental percentage as the 
+-- difference between the last and first purchase amounts, divided by the first purchase amount. 
+-- This shows the percentage increase from the first purchase to the last purchase.
 
--- Solution
 
 
-with cte as(
-    select *,
-    sum(SalesAmount) over(order by CustomerID,SalesAmount,date) as purchase_amount 
+-- Solution:
+
+
+
+
+with cte as (
+    select *, 
+    (Quantity*SalesAmount) as purchase_amount,
+    row_number() over (partition by CustomerID order by Date) as rn,
+    count(*) over (partition by CustomerID) as cnt
     from sales_info
-    )
-select CustomerID,CustomerName,purchase_amount,((purchase_amount - SalesAmount)*100/purchase_amount) as purchase_incr_percentage
-    from cte 
-order by purchase_amount desc 
+)
+select CustomerID, CustomerName, 
+    min(case when rn = 1 then Date end) as first_purchase_date,
+    min(case when rn = 1 then purchase_amount end) as first_purchase_amount,
+    max(case when rn = cnt then Date end) as last_purchase_date,
+    max(case when rn = cnt then purchase_amount end) as last_purchase_amount,
+    ((max(case when rn = cnt then purchase_amount end) - 
+      min(case when rn = 1 then purchase_amount end)) / 
+     min(case when rn = 1 then purchase_amount end)) * 100 as incr_percentage
+from cte
+group by CustomerID, CustomerName;
+
+
+-- or 
+
+with cte as (
+    select *, 
+    row_number() over (partition by CustomerID order by Date) as first_last,
+    (Quantity*SalesAmount) as purchase_amount,
+    min(Date) over (partition by CustomerID) as first_purchase_date,
+    max(Date) over (partition by CustomerID) as last_purchase_date,
+    min(Quantity*SalesAmount) over (partition by CustomerID) as first_purchase_amount,
+    max(Quantity*SalesAmount) over (partition by CustomerID) as last_purchase_amount
+    from sales_info
+)
+select CustomerID, CustomerName, 
+    first_purchase_date, first_purchase_amount, 
+    last_purchase_date, last_purchase_amount,
+    ((last_purchase_amount - first_purchase_amount) / first_purchase_amount) * 100 as incr_percentage
+from cte
+where first_last = 1;
+
+
+-- Note: This approch fails 
+-- since it is taking min and max purchase amount irrespective of first and last purchase date.
