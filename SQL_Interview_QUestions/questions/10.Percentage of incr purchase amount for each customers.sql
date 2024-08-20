@@ -89,4 +89,4 @@ where first_last = 1;
 
 
 -- Note: This approch fails 
--- since it is taking min and max purchase amount irrespective of first and last purchase date.
+-- since it is taking min and max purchase amount irrespective of first and last purchase date yet it gives result.
