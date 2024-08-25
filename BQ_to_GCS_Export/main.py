@@ -10,7 +10,6 @@ query = """
     SELECT id,sum(sal) as salary_dept_wise
     FROM `project-location.tempdb.emp`
     group by department_id
-    LIMIT 100
 """
 
 # Define the destination URI where the query results will be stored in GCS
