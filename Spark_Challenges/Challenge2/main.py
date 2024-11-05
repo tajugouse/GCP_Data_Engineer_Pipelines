@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import month,year,count_distinct
+from pyspark.sql.storagelevel import StorageLevel
 
 spark = SparkSession.builder.appName('ordes_transformation').getOrCreate()
 
@@ -16,7 +17,7 @@ df_months = orders_df.withColumn('purchased_year',year('purchase_date')).withCol
 
 
 agg_df = df_months.groupBy('customer_id','purchased_year','purchased_mon').agg(count_distinct('purchase_date').alias('distinct_months')).orderBy(['customer_id','purchased_year','purchased_mon'],ascending =
-[True,True,True]).persist()
+[True,True,True]).persist(StorageLevel.Memory_Only)
 # agg_df.show()
 
 ordered_df = agg_df.filter('distinct_months ==1').groupBy('customer_id').count().orderBy('count',ascending=False)
